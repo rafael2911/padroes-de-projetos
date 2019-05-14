@@ -135,4 +135,20 @@ public class CalculadoraDeImpostosTeste {
 		assertEquals(165.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IHIT()), 0.00001);
 	}
 	
+	@Test
+	public void calculaImpostoComposto() {
+		Orcamento orcamento = new Orcamento(500);
+		Imposto imposto = new ISS(new ICMS());
+		
+		assertEquals(105.0, new CalculadoraDeImpostos().calculaImpost(orcamento, imposto), 0.00001);
+	}
+	
+	@Test
+	public void calculaImpostoCompostoImpostoMuitoAltoEISS() {
+		Orcamento orcamento = new Orcamento(500);
+		Imposto imposto = new ImpostoMuitoAlto(new ISS());
+		
+		assertEquals(130.0, new CalculadoraDeImpostos().calculaImpost(orcamento, imposto), 0.00001);
+	}
+	
 }
