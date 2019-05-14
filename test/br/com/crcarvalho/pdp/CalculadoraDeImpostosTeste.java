@@ -61,4 +61,58 @@ public class CalculadoraDeImpostosTeste {
 		assertEquals(70.0, new ICCC().calcula(orcamento), 0.00001);
 	}
 	
+	@Test
+	public void calculaICPMaximaTaxacao() {
+		Orcamento orcamento = new Orcamento(1000);
+		
+		assertEquals(70.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new ICP()), 0.00001);
+	}
+	
+	@Test
+	public void calculaICPMinimaTaxacao() {
+		Orcamento orcamento = new Orcamento(400);
+		
+		assertEquals(20.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new ICP()), 0.00001);
+	}
+	
+	@Test
+	public void calculaIKCVMaximaTaxacao() {
+		Orcamento orcamento = new Orcamento(800);
+		orcamento.addItem(new Item("Casaco", 750.0));
+		orcamento.addItem(new Item("Chinelo", 50.0));
+		
+		assertEquals(80.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IKCV()), 0.00001);
+	}
+	
+	@Test
+	public void calculaIKCVMinimaTaxacao() {
+		Orcamento orcamento = new Orcamento(100);
+		orcamento.addItem(new Item("Chinelo", 50.0));
+		orcamento.addItem(new Item("Tenis", 50.0));
+		
+		assertEquals(6.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IKCV()), 0.00001);
+	}
+	
+	@Test
+	public void calculaIKCVMinimaTaxacaoOrcamentoAcimaEItemAbaixo() {
+		Orcamento orcamento = new Orcamento(600);
+		orcamento.addItem(new Item("Chinelo", 100.0));
+		orcamento.addItem(new Item("Tenis", 100.0));
+		orcamento.addItem(new Item("Sapato", 100.0));
+		orcamento.addItem(new Item("Calça", 100.0));
+		orcamento.addItem(new Item("Camisa", 100.0));
+		orcamento.addItem(new Item("Boné", 100.0));
+		
+		assertEquals(36.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IKCV()), 0.00001);
+	}
+	
+	@Test
+	public void calculaIKCVMinimaTaxacaoOrcamentoAbaixoEItemAcima() {
+		Orcamento orcamento = new Orcamento(300);
+		orcamento.addItem(new Item("Chinelo", 200.0));
+		orcamento.addItem(new Item("Tenis", 100.0));
+		
+		assertEquals(18.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IKCV()), 0.00001);
+	}
+	
 }
