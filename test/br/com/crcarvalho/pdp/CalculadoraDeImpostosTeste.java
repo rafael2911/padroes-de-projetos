@@ -115,4 +115,24 @@ public class CalculadoraDeImpostosTeste {
 		assertEquals(18.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IKCV()), 0.00001);
 	}
 	
+	@Test
+	public void calculaIHITMinimaTaxacao() {
+		Orcamento orcamento = new Orcamento(400);
+		orcamento.addItem(new Item("Chinelo", 200.0));
+		orcamento.addItem(new Item("Tenis", 100.0));
+		orcamento.addItem(new Item("Sapato", 100.0));
+		
+		assertEquals(12.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IHIT()), 0.00001);
+	}
+	
+	@Test
+	public void calculaIHITMaximaTaxacao() {
+		Orcamento orcamento = new Orcamento(500);
+		orcamento.addItem(new Item("Chinelo", 200.0));
+		orcamento.addItem(new Item("Tenis", 100.0));
+		orcamento.addItem(new Item("Chinelo", 200.0));
+		
+		assertEquals(165.0, new CalculadoraDeImpostos().calculaImpost(orcamento, new IHIT()), 0.00001);
+	}
+	
 }
